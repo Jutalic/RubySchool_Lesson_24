@@ -28,10 +28,17 @@ post '/visit' do
 	@title = 'Thank you!'
 
 	if @username == ''
-   		@error = 'something wrong!!!'
+   		@error = 'Введите имя!'
+	elsif @phone == ''
+   		@error = 'Введите номер телефона!'
+	elsif @datetime == ''
+   		@error = 'Неправильная дата и время!'
+   	end
+
+	if @error != ''
    		return erb :visit
    	end
-   	
+
 	if @username != nil && @phone != nil && @datetime != nil
 		@message = "Dear #{@username}, we'll be waiting for you at #{@datetime} to master #{@master}, color #{@color}"	
 
