@@ -7,6 +7,7 @@ get '/' do
 end
 
 get '/about' do
+#	@error = 'something wrong!!!'
 	erb :about
 end
 
@@ -25,7 +26,13 @@ post '/visit' do
 #	erb "Ok! user is #{@username}, #{@phone}, #{@datetime}, #{@master}"
 
 	@title = 'Thank you!'
-	if @username != nil
+
+	if @username == ''
+   		@error = 'something wrong!!!'
+   		return erb :visit
+   	end
+   	
+	if @username != nil && @phone != nil && @datetime != nil
 		@message = "Dear #{@username}, we'll be waiting for you at #{@datetime} to master #{@master}, color #{@color}"	
 
 		f = File.open './public/users.txt', 'a'
@@ -34,6 +41,8 @@ post '/visit' do
 		f.close
 
    		erb :message
+   	else 
+   		@error = 'something wrong!!!'
 	end
 end
 
