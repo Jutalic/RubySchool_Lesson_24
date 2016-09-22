@@ -25,19 +25,21 @@ post '/visit' do
 
 #	erb "Ok! user is #{@username}, #{@phone}, #{@datetime}, #{@master}"
 
+	# хеш, сообщения об ошибках для каждой переменной
+	hh = {:username => 'Введите имя!', 
+		  :phone => 'Введите номер телефона!', 
+		  :datetime => 'Неправильная дата и время!'}
+
+	# для каждой пары значение-ключ	  
+	hh.each do |key, value|
+		# если параметр пуст
+		if params[key] == ''
+			@error = hh[key]
+			return erb :visit
+		end
+	end
+
 	@title = 'Thank you!'
-
-	if @username == ''
-   		@error = 'Введите имя!'
-	elsif @phone == ''
-   		@error = 'Введите номер телефона!'
-	elsif @datetime == ''
-   		@error = 'Неправильная дата и время!'
-   	end
-
-	if @error != ''
-   		return erb :visit
-   	end
 
 	if @username != nil && @phone != nil && @datetime != nil
 		@message = "Dear #{@username}, we'll be waiting for you at #{@datetime} to master #{@master}, color #{@color}"	
