@@ -30,14 +30,21 @@ post '/visit' do
 		  :phone => 'Введите номер телефона!', 
 		  :datetime => 'Неправильная дата и время!'}
 
-	# для каждой пары значение-ключ	  
-	hh.each do |key, value|
-		# если параметр пуст
-		if params[key] == ''
-			@error = hh[key]
-			return erb :visit
-		end
+#	# для каждой пары значение-ключ	  
+#	hh.each do |key, value|
+#		# если параметр пуст
+#		if params[key] == ''
+#			@error = hh[key]
+#			return erb :visit
+#		end
+#	end
+
+	# это круче, чем предыдущее !!! 
+	@error = hh.select{|key,_| params[key] == ""}.values.join(", ")
+	if @error != ''
+		return erb:visit
 	end
+
 
 	@title = 'Thank you!'
 
