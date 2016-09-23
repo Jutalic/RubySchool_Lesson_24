@@ -27,7 +27,7 @@ post '/visit' do
 
 	# хеш, сообщения об ошибках для каждой переменной
 	hh = {:username => 'Введите имя!', 
-		  :phone => 'Введите номер телефона!', 
+		  :phone    => 'Введите номер телефона!', 
 		  :datetime => 'Неправильная дата и время!'}
 
 #	# для каждой пары значение-ключ	  
@@ -42,13 +42,12 @@ post '/visit' do
 	# это круче, чем предыдущее !!! 
 	@error = hh.select{|key,_| params[key] == ""}.values.join(", ")
 	if @error != ''
-		return erb:visit
+		return erb :visit
 	end
-
 
 	@title = 'Thank you!'
 
-	if @username != nil && @phone != nil && @datetime != nil
+#	if @username != nil 
 		@message = "Dear #{@username}, we'll be waiting for you at #{@datetime} to master #{@master}, color #{@color}"	
 
 		f = File.open './public/users.txt', 'a'
@@ -57,9 +56,9 @@ post '/visit' do
 		f.close
 
    		erb :message
-   	else 
-   		@error = 'something wrong!!!'
-	end
+#  	else 
+#  		@error = 'something wrong!!!'
+#	end
 end
 
 get '/contacts' do
@@ -67,19 +66,27 @@ get '/contacts' do
 end
 
 post '/contacts' do
-	@email   = params[:email]
-	@message = params[:message]
+	@email = params[:email]
+	@mess  = params[:mess]
+
+	hh2 = { :email => 'Введите ваш email', 
+ 		    :mess  => 'Введите ваше сообщение'}
+
+	@error = hh2.select{|key,_| params[key] == ""}.values.join(", ")
+	if @error != ''
+		return erb :contacts
+	end
 
 	@title = 'Thank you! Thank you!'
-	if @email != nil
-		@message = "For #{@email}, message '#{@message}'"	
+#	if @email != nil
+		@message = "For #{@email}, message '#{@mess}'"	
 
 		f = File.open './public/contacts.txt', 'a'
-		f.write("For email: #{@email}, message: '#{@message}'")
+		f.write("For email: #{@email}, message: '#{@mess}'")
 		f.write("\r\n")
 		f.close
 
    		erb :message
-	end
+#	end
 end
 
